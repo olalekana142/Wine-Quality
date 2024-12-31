@@ -1,17 +1,24 @@
 name: model-wine-quality
+
 on: [push]
+
 jobs:
-  run:
-    runs-on: ubuntu-latest
-    container: ghcr.io/iterative/cml:0-dvc2-base1
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'  # Pinned version for reproducibility
-      - name: Train model
-        run: |
-          pip install -r requirements.txt
-          python train.py
-          echo "MODEL METRICS"
-          cat metrics.txt
+ train:
+   runs-on: ubuntu-22.04
+   container: 
+     image: ghcr.io/iterative/cml:0-dvc2-base1
+     
+   steps:
+     - uses: actions/checkout@v3
+     
+     - name: Set up Python
+       uses: actions/setup-python@v4
+       with:
+         python-version: '3.10'
+         
+     - name: Train model
+       run: |
+         pip install -r requirements.txt
+         python train.py
+         echo "MODEL METRICS"
+         cat metrics.txt
